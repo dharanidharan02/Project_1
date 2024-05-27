@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Signup</title>
+</head>
+<body>
+    <h2>Hospital Signup</h2>
+    <form id="signupForm" action="/hospital_signup" method="POST">
+        <label for="hospitalName">Hospital Name:</label><br>
+        <input type="text" id="hospitalName" name="hospitalName" required><br><br>
+
+        <label for="streetAddress">Street Address:</label><br>
+        <input type="text" id="streetAddress" name="streetAddress" required><br><br>
+        
+        <label for="city">City:</label><br>
+        <input type="text" id="city" name="city" required><br><br>
+        
+        <label for="stateProvince">State/Province:</label><br>
+        <input type="text" id="stateProvince" name="stateProvince" required><br><br>
+        
+        <label for="postalCode">Postal/ZIP Code:</label><br>
+        <input type="text" id="postalCode" name="postalCode" required><br><br>
+        
+        <label for="country">Country:</label><br>
+        <input type="text" id="country" name="country" required><br><br>
+
+        <label for="phoneNumber">Phone Number:</label><br>
+        <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]+" title="Please enter only numbers" required><br><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z0-9]).{8,}$" 
+            title="Password must have minimum 8 characters, at least 1 number, 1 uppercase letter, 1 lowercase letter, and 1 alphanumeric character" required><br><br>
+
+        <label for="confirmPassword">Confirm Password:</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

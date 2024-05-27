@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwiftCare</title>
+    <link rel="stylesheet" href="static/category.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <!-- Background image as logo -->
+        <div class="logo"></div>
+        <h1>Category</h1>
+
+    </header>
+         <button id="backButton">Back</button>
+    <div class="container">
+        <div class="category-dropdown">
+            <label for="category">Select a category:</label>
+            <select id="category">
+                <option value="dentist">Dentist</option>
+                <option value="orthopedic">Orthopedic</option>
+                <option value="dermatologist">Dermatologist</option>
+                <option value="skin">SKIN</option>
+                <option value="ENT">ENT</option>
+                <option value="Eye">Eye</option>
+                <!-- Add more categories as needed -->
+            </select>
+            <button id="fetchData">Search</button>
+        </div>
+
+        <div class="results">
+            <h2>Doctors</h2>
+            <ul id="doctorList"></ul>
+
+            <h2>Hospitals</h2>
+            <ul id="hospitalList"></ul>
+        </div>
+
+        <div id="appointmentsContainer"></div>
+        <!-- Inside the slotItem creation -->
+
+    </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="static/script.js"></script>
+
+
+</body>
+</html>

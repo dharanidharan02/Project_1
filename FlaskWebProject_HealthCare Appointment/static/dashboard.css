@@ -1,0 +1,75 @@
+.navbar {
+    background-color: #D4F1F4; /* Baby Blue */
+    padding: 0.5rem 1rem;
+}
+
+.navbar-nav {
+    display: flex; /* Display list items horizontally */
+    list-style-type: none; /* Remove bullet points */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.nav-item {
+    margin-right: 10px; /* Adjust spacing between nav items */
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #05445E; /* Navy Blue */ /* Adjust link color */
+
+}
+
+.navbar-brand img {
+    height: 200px;
+    margin-left: 10px;
+}
+
+.navbar-brand {
+    color: #05445E; /* Navy Blue */
+    font-size: 1.25rem;
+}
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: #05445E; /* Navy Blue */
+}
+
+.navbar-nav .nav-item {
+    margin-right: 20px;
+}
+
+.jumbotron {
+    padding: 100px;
+    background-image: url("dashboard.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: rgba(255, 255, 255, 0); /* Adjust the last value (alpha) to control transparency */
+}
+
+.jumbotron h1 {
+    font-size: 2.5rem;
+    color:White;
+
+}
+.jumbotron p{
+color:black;
+background-color:white;
+}
+.jumbotron .lead {
+    font-size: 1.50rem;
+     color:black;
+
+}
+
+footer{
+
+padding: 20px;
+padding-left: 700px;
+color:White;
+
+background-color:#05445E;
+}
