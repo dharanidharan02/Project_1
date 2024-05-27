@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hospital Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='doctor.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+ <div class="logo"></div>
+<style>
+/* Add borders to table */
+#booked-appointments-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/* Add borders to table header cells */
+#booked-appointments-table th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+/* Add borders to table cells */
+#booked-appointments-table td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+/* Alternate row background color */
+#booked-appointments-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+     <div class="d-flex justify-content-between align-items-center mb-3">
+            <button class="btn btn-secondary" onclick="history.back()">Back</button>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    <div class="left-side">
+        <h1>Doctors at {{ hospital.hospitalName }} hospital</h1>
+
+        <form id="doctorForm" method="POST">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Doctor Name</th>
+                        <th>Availability</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doctor in doctors %}
+                    <tr>
+                        <td class="doctor-name">{{ doctor.doctorName }}</td>
+                        <td>
+                            <input type="checkbox" class="doctor-checkbox" name="doctorIds" value="{{ doctor.doctorId }}" {% if doctor.availabilityStatus %}checked{% endif %}>
+                        </td>
+                        <td class="category">{{ doctor.category }}</td>
+                        <td>
+                            <button type="button" class="edit-button btn btn-primary" data-doctor-id="{{ doctor.doctorId }}">Edit</button>
+                            <button class="delete-button btn btn-danger" data-doctor-id="{{ doctor.doctorId }}">Delete</button>
+                            {% if doctor.availabilityStatus %}
+                                <button class="slot-button btn btn-secondary" type="button" data-doctor-id="{{ doctor.doctorId }}">Slots</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr class="edit-box" style="display: none;">
+                        <td colspan="4">
+                            <input type="text" class="edit-name form-control" value="{{ doctor.doctorName }}">
+                            <input type="text" class="edit-category form-control" value="{{ doctor.category }}">
+                            <button class="confirm-edit btn btn-success" data-doctor-id="{{ doctor.doctorId }}">Save</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-success">Save</button>
+        </form>
+
+        <!-- Appointment Slots Container -->
+        <div class="appointment-slots-container" id="appointmentSlotsContainer" data-doctor-id="{{ doctor_id }}">
+            <h2>Appointment Slots</h2>
+            <div id="appointmentSlots">
+                <!-- Appointment slots will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="availableSlots" class="checkbox-container">
+        <!-- Checkboxes for available slots will be dynamically added here -->
+        <button id="saveSlotsButton" class="btn btn-primary">Save</button>
+    </div>
+
+    <div class="right-side">
+        <!-- Register a new doctor -->
+        <h2>Register New Doctor</h2>
+        <form id="registerDoctorForm" method="POST">
+            <label for="doctorName">Doctor Name:</label><br>
+            <input type="text" id="doctorName" name="doctorName" required><br><br>
+
+            <label for="category">Category:</label><br>
+            <input type="text" id="category" name="category" required><br><br>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</div>
+<h2> Booked Appointments</h2>
+<!-- To fetch Appointment details -->
+<table id="booked-appointments-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Time</th>
+            <th>Doctor Name</th>
+            <th>Patient Name</th>
+            <th>Patient Email</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Table rows will be dynamically added here -->
+    </tbody>
+</table>
+
+
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='doctor.js') }}"></script>
+<script>
+    // Fetch booked appointments data using AJAX
+    fetch('/get_booked_appointments')
+        .then(response => response.json())
+        .then(bookedAppointments => {
+            // Get the table body element
+            const tableBody = document.getElementById('booked-appointments-table');
+
+            // // Create table header row
+            // const headerRow = '<tr><th>ID</th><th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time</th><th>&nbsp;&nbsp;Doctor ID</th><th>&nbsp;&nbsp;Doctor Name</th><th>&nbsp;&nbsp;Patient Name</th><th>&nbsp;&nbsp;Patient Email</th></tr>';
+            // tableBody.innerHTML += headerRow;
+
+            // Iterate over booked appointments and create table rows
+            // bookedAppointments.forEach(appointment => {
+            //     const row = `<div>${appointment.id}</div>
+            //                 <div>${appointment.time}  </div>
+            //                 <div>${appointment.doctor_id}</div>
+            //                 <div>${appointment.doctor_name} </div>
+            //                 <div>${appointment.username} </div>
+            //                 <div> ${appointment.email}</div>
+            //                 </div>`;
+            //     tableBody.innerHTML += row;
+            // });
+
+            // Iterate over booked appointments and create table rows
+bookedAppointments.forEach(appointment => {
+    const row = `
+        <tr>
+            <td>${appointment.id}</td>
+            <td>${appointment.time}</td>
+            <td>${appointment.doctor_name}</td>
+            <td>${appointment.username}</td>
+            <td>${appointment.email}</td>
+        </tr>`;
+    tableBody.innerHTML += row;
+});
+
+        //     // Iterate over booked appointments and create table rows
+        //     bookedAppointments.forEach(appointment => {
+        //     const row = `<tr><td>${appointment.id}</td><td>${appointment.time}</td><td>${appointment.user_id}</td><td>${appointment.doctor_id}</td></tr>`;
+        //     tableBody.innerHTML += row;
+        // });
+        })
+        .catch(error => console.error('Error fetching booked appointments:', error));
+    function logout() {
+            // Redirect to logout endpoint
+            window.location.href = '/logout';
+        }
+</script>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details</title>
+    <link rel="stylesheet" href="static/account.css">
+</head>
+<body>
+    <header class="header">
+        <button class="button logout-button" onclick="logout()">Logout</button>
+        <button class="button back-button" onclick="goBack()">Back</button>
+    </header>
+    <div class="container">
+        <div class="left-section">
+            <div class="profile-details">
+                <h2>Account Details</h2>
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> <span id="email">{{ user.email }}</span> <button class="edit-email button" onclick="toggleEmailEditBox()">Edit Email</button></p>
+                <div id="email-edit-box" style="display: none;">
+                    <input type="email" id="new-email">
+                    <button class="button" onclick="updateEmail()">Update Email</button>
+                </div>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="profile-picture">
+                {% if user.profile_picture_path %}
+                    <img src="{{ user.profile_picture_path }}" alt="Profile Picture">
+                {% else %}
+                    <img src="empty_profile_picture.png" alt="Empty Profile Picture">
+                {% endif %}
+                <input type="file" id="profile-picture-input">
+                <button class="button" onclick="uploadProfilePic()">Upload Profile Picture</button>
+            </div>
+        </div>
+    </div>
+    <script src="static/account.js"></script>
+    <script>
+// Function to reload the page after updating profile picture
+    function reloadPage() {
+        location.reload();
+    }
+
+    // Function to logout the user and redirect to the dashboard
+    function logout() {
+        fetch('/logout', {
+            method: 'GET'
+        })
+        .then(response => {
+            if (response.ok) {
+                // Redirect to the dashboard page after logout
+                window.location.href = '/';
+            } else {
+                throw new Error('Failed to logout.');
+            }
+        })
+        .catch(error => {
+            console.error('Error logging out:', error.message);
+            alert('Failed to logout. Please try again later.');
+        });
+    }
+
+    // Function to delete the user account
+    function deleteAccount() {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            fetch('/delete_account', {
+                method: 'POST'
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to the login page after account deletion
+                    window.location.href = '/login';
+                } else {
+                    throw new Error('Failed to delete account.');
+                }
+            })
+            .catch(error => {
+                console.error('Error deleting account:', error.message);
+                alert('Failed to delete account. Please try again later.');
+            });
+        }
+    }
+</script>
+</body>
+</html>
